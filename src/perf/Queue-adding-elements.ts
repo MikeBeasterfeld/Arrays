@@ -1,21 +1,20 @@
 import Benchmark from "benchmark";
 import JSQueue from "../classes/JSQueue";
 
-const queue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-const jsqueue = new JSQueue(queue);
+const elements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const suite = new Benchmark.Suite();
 
 suite
-  .add("Array methods", () => {
-    queue.push(1);
-    queue.shift();
-  })
+  .add("Array pushing", () => {
+    const queue = [...elements];
 
-  .add("JSQueue", () => {
+    queue.push(1);
+  })
+  .add("JSQueue enqueue", () => {
+    const jsqueue = new JSQueue(elements);
+
     jsqueue.enqueue(1);
-    jsqueue.deque();
   })
   .run({ async: true })
   .on("cycle", function (event: { target: any }) {
